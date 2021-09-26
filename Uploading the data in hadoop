@@ -1,0 +1,36 @@
+Uploading the data 
+
+EXPORT TABLE - 
+
+wget https://raw.githubusercontent.com/lakshyaag/India-Trade-Data/master/2018-2010_export.csv
+
+hive
+   create table exports (HSCode int , Commodity string , value int , country string , year int)
+    row format  SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' 
+    WITH 
+    SERDEPROPERTIES 
+    ( "separatorChar" = ",", "quoteChar" = "\"", "escapeChar" = "\\" ) 
+    STORED AS TEXTFILE ;
+
+desc formatted exports ;
+
+hdfs dfs -put 2018-2010_export.csv hdfs://quickstart.cloudera:8020/user/hive/warehouse/exports
+
+
+IMPORT TABLE
+
+https://raw.githubusercontent.com/lakshyaag/India-Trade-Data/master/2018-2010_import.csv
+
+hive
+   create table imports (HSCode int , Commodity string , value int , country string , year int)
+    row format  SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde' 
+    WITH 
+    SERDEPROPERTIES 
+    ( "separatorChar" = ",", "quoteChar" = "\"", "escapeChar" = "\\" ) 
+    STORED AS TEXTFILE ;
+
+desc formatted imports ;
+
+hdfs dfs -put 2018-2010_import.csv hdfs://quickstart.cloudera:8020/user/hive/warehouse/imports
+
+
